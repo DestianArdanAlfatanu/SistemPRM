@@ -15,7 +15,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-    // Admin routes - hanya bisa diakses oleh admin
+
     Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::resource('bookings', BookingController::class);
         Route::patch('bookings/{booking}/approve', [BookingController::class, 'approve'])->name('bookings.approve');

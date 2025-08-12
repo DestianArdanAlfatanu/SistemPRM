@@ -123,7 +123,7 @@ function PRMWebsite() {
       description: "Specialized in network infrastructure and project management for large-scale deployments.",
     },
     {
-      name: "FX.ALI SARTONO,ST",
+      name: "FX.ALI SARTONO, S.T.",
       position: "COORDINATOR OBL, LEGAL & COMPLIANCE",
       image: "/laki.jpg?w=300&h=300&fit=crop",
       description: "Specialized in network infrastructure and project management for large-scale deployments.",

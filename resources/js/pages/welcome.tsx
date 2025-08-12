@@ -132,22 +132,22 @@ function PRMWebsite() {
 
   const testimonials = [
     {
-      name: "PT. Indonesia Power",
-      position: "Chief Technology Officer",
+      name: "Smartani",
+      position: "Chief Executive Officer",
       content:
         "PRM's expertise in digital transformation has been instrumental in modernizing our operations. Their professional approach and technical excellence exceeded our expectations.",
       rating: 5,
     },
     {
-      name: "Bank Mandiri",
-      position: "IT Director",
+      name: "Sinar Ilmu",
+      position: "Founder",
       content:
         "The cybersecurity solutions provided by PRM have significantly enhanced our security posture. Their team's dedication and expertise are truly commendable.",
       rating: 5,
     },
     {
-      name: "Pertamina",
-      position: "Head of Digital Innovation",
+      name: "DiikatJanji",
+      position: "Chief Executive Officer",
       content:
         "Working with PRM on our cloud migration project was seamless. They delivered on time and within budget while maintaining the highest quality standards.",
       rating: 5,

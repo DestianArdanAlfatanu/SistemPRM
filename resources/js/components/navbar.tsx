@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { Menu, X, LogIn, UserPlus, User, LogOut, Settings, Shield } from "lucide-react"
-import { usePage } from "@inertiajs/react"
+import { Link, router, usePage } from "@inertiajs/react"
+import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
 
 interface NavbarProps {
   activeSection: string
@@ -23,7 +24,9 @@ interface PageProps {
 export function Navbar({ activeSection, scrollToSection, isMenuOpen, setIsMenuOpen }: NavbarProps) {
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
-  const { auth } = usePage<PageProps>().props
+  type NewType = PageProps
+
+  const { auth } = usePage<NewType>().props
 
   // Added theme detection with MutationObserver
   useEffect(() => {
@@ -52,9 +55,11 @@ export function Navbar({ activeSection, scrollToSection, isMenuOpen, setIsMenuOp
     { id: "contact", label: "Contact" },
   ]
 
+  const cleanup = useMobileNavigation();
   const handleLogout = () => {
-    window.location.href = '/logout'
-  }
+        cleanup();
+        router.flushAll();
+    };  
 
   return (
     <nav className="fixed top-0 w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 z-50">
@@ -111,23 +116,26 @@ export function Navbar({ activeSection, scrollToSection, isMenuOpen, setIsMenuOp
                       </div>
                       
                       {auth.user.role === 'admin' && (
-                        <a
+                        <Link
                           href="/admin/bookings"
                           className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                         >
                           <Shield className="w-4 h-4 mr-3" />
                           Admin Panel
-                        </a>
+                        </Link>
                       )}
                       
                       
                       
                       <div className="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2">
                         <button
-                          onClick={handleLogout}
-                          className="flex items-center w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                          onClick={() => {
+                            handleLogout(); 
+                            router.post(route('logout'));
+                          }}
+                          className="inline-flex items-center text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors"
                         >
-                          <LogOut className="w-4 h-4 mr-3" />
+                          <LogOut className="w-4 h-4 mr-3 ml-4" />
                           Logout
                         </button>
                       </div>
@@ -222,7 +230,10 @@ export function Navbar({ activeSection, scrollToSection, isMenuOpen, setIsMenuOp
                     </a>
                     
                     <button
-                      onClick={handleLogout}
+                      onClick={() => {
+                            handleLogout(); 
+                            router.post(route('logout'));
+                          }}
                       className="inline-flex items-center text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors"
                     >
                       <LogOut className="w-4 h-4 mr-2" />

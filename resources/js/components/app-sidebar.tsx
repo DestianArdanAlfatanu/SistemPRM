@@ -4,20 +4,36 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, PencilIcon } from 'lucide-react';
+import { BookOpen, Calendar, CalendarPlus, Folder, LayoutGrid, Users } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: '/admin/bookings',
         icon: LayoutGrid,
     },
-
-     {
-        title: 'Booking',
-        href: '/booking',
-        icon: PencilIcon,
+    {
+        title: 'Booking Meeting',
+        href: '/admin/bookings',
+        icon: Users,
+        items: [
+            {
+                title: 'Semua Booking',
+                href: '/admin/bookings',
+                icon: Users,
+            },
+            {
+                title: 'Buat Booking',
+                href: '/admin/bookings/create',
+                icon: CalendarPlus,
+            },
+            {
+                title: 'Kalender',
+                href: '/admin/bookings-calendar',
+                icon: Calendar,
+            },
+        ],
     },
 ];
 
@@ -41,7 +57,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href="/dashboard" prefetch>
+                            <Link href="/admin/bookings" prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

@@ -4,38 +4,14 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import TimePicker from "../components/ui/time-picker"
-import { Calendar, Clock, Users, MapPin, Phone, Mail, ChevronDown, Menu, X, Star, Instagram } from "lucide-react"
+import { PublicLayout } from "@/layouts/public-layout"
+import { Calendar, Clock, Users, MapPin, Phone, Mail, ChevronDown, Star } from "lucide-react"
 
 function PRMWebsite() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState("home")
   const [startTime, setStartTime] = useState("08:00")
   const [endTime, setEndTime] = useState("12:00")
   // Added dark mode state detection
   const [isDarkMode, setIsDarkMode] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ["home", "about", "booking", "unit", "team", "testimonials", "contact"]
-      const scrollPosition = window.scrollY + 100
-
-      for (const section of sections) {
-        const element = document.getElementById(section)
-        if (element) {
-          const offsetTop = element.offsetTop
-          const offsetHeight = element.offsetHeight
-
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section)
-            break
-          }
-        }
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
 
   // Added theme detection with MutationObserver
   useEffect(() => {
@@ -59,7 +35,6 @@ function PRMWebsite() {
     if (element) {
       element.scrollIntoView({ behavior: "smooth" })
     }
-    setIsMenuOpen(false)
   }
 
   const units = ["OBL, LEGAL & COMPLIANCE", "PROJECT OPERATION", "PARTNERSHIP SLA", "RESOURCE & INVOICING"]
@@ -175,83 +150,7 @@ function PRMWebsite() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <div>
-                {/* Logo switches based on dark mode */}
-                <img src={isDarkMode ? "/LOGO PRM WHITE.png" : "/LOGO PRM.png"} alt="LOGO PRM" className="w-25 h-10" />
-              </div>
-            </div>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex space-x-8">
-              {[
-                { id: "home", label: "Home" },
-                { id: "about", label: "About" },
-                { id: "booking", label: "Booking" },
-                { id: "unit", label: "Unit" },
-                { id: "team", label: "Team" },
-                { id: "testimonials", label: "Testimonials" },
-                { id: "contact", label: "Contact" },
-              ].map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`text-sm font-medium transition-colors hover:text-blue-900 dark:hover:text-blue-400 ${
-                    activeSection === item.id ? "text-blue-900 dark:text-blue-400" : "text-gray-700 dark:text-gray-300"
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Mobile menu button */}
-            <div className="md:hidden">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-900 dark:hover:text-blue-400"
-              >
-                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Navigation */}
-          {isMenuOpen && (
-            <div className="md:hidden border-t border-gray-200 dark:border-gray-700 py-4">
-              <div className="flex flex-col space-y-3">
-                {[
-                  { id: "home", label: "Home" },
-                  { id: "about", label: "About" },
-                  { id: "booking", label: "Booking" },
-                  { id: "unit", label: "Unit" },
-                  { id: "team", label: "Team" },
-                  { id: "testimonials", label: "Testimonials" },
-                  { id: "contact", label: "Contact" },
-                ].map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => scrollToSection(item.id)}
-                    className={`text-left text-sm font-medium transition-colors hover:text-blue-900 dark:hover:text-blue-400 ${
-                      activeSection === item.id
-                        ? "text-blue-900 dark:text-blue-400"
-                        : "text-gray-700 dark:text-gray-300"
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      </nav>
-
+    <PublicLayout>
       {/* Hero Section */}
       <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-900 to-blue-600"></div>
@@ -832,70 +731,7 @@ function PRMWebsite() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 dark:bg-gray-950 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="col-span-2">
-              <div className="flex items-center space-x-3 mb-4">
-                {/* Footer always uses white logo */}
-                <img src="/LOGO PRM WHITE.png" alt="LOGO PRM" className="w-25 h-10" />
-              </div>
-              <p className="text-gray-400 dark:text-gray-300 leading-relaxed mb-6">
-                Divisi strategis Telkom Indonesia yang berfokus pada transformasi digital dan solusi teknologi
-                enterprise untuk memajukan Indonesia.
-              </p>
-              <div className="flex space-x-4 text-xl items-center">
-                <a
-                  href="https://www.instagram.com/prmtelkom?igsh=YXVkdWhleTRobmp5"
-                  className="flex items-center gap-x-2 hover:text-pink-500 transition-colors"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Instagram className="w-6 h-6" />
-                  <span className="text-base font-medium">Instagram</span>
-                </a>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-bold text-lg mb-4">Unit</h4>
-              <div className="space-y-2 text-gray-400 dark:text-gray-300">
-                <div className="hover:text-white transition-colors cursor-pointer">OBL, LEGAL & COMPLIANCE</div>
-                <div className="hover:text-white transition-colors cursor-pointer">PROJECT OPERATION</div>
-                <div className="hover:text-white transition-colors cursor-pointer">PARTNERSHIP SLA</div>
-                <div className="hover:text-white transition-colors cursor-pointer">RESOURCE & INVOICING</div>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-bold text-lg mb-4">Perusahaan</h4>
-              <div className="space-y-2 text-gray-400 dark:text-gray-300">
-                <div className="hover:text-white transition-colors cursor-pointer">Tentang Kami</div>
-                <div className="hover:text-white transition-colors cursor-pointer">Booking Meeting Room</div>
-                <div className="hover:text-white transition-colors cursor-pointer">Unit</div>
-                <div className="hover:text-white transition-colors cursor-pointer">Kontak</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-800 dark:border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 dark:text-gray-300 text-sm">
-              © {new Date().getFullYear()} PRM - Telkom Indonesia. All rights reserved.
-            </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="text-gray-400 dark:text-gray-300 hover:text-white text-sm transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#" className="text-gray-400 dark:text-gray-300 hover:text-white text-sm transition-colors">
-                Terms of Service
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </PublicLayout>
   )
 }
 

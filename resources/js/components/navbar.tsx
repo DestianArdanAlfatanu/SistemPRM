@@ -56,10 +56,17 @@ export function Navbar({ activeSection, scrollToSection, isMenuOpen, setIsMenuOp
   ]
 
   const cleanup = useMobileNavigation();
+  
   const handleLogout = () => {
-        cleanup();
+    cleanup();
+    setIsUserMenuOpen(false);
+    setIsMenuOpen(false);
+    router.post('/logout', {}, {
+      onFinish: () => {
         router.flushAll();
-    };  
+      }
+    });
+  };  
 
   return (
     <nav className="fixed top-0 w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 z-50">
@@ -129,10 +136,7 @@ export function Navbar({ activeSection, scrollToSection, isMenuOpen, setIsMenuOp
                       
                       <div className="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2">
                         <button
-                          onClick={() => {
-                            handleLogout(); 
-                            router.post(route('logout'));
-                          }}
+                          onClick={handleLogout}
                           className="inline-flex items-center text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors"
                         >
                           <LogOut className="w-4 h-4 mr-3 ml-4" />
@@ -145,20 +149,20 @@ export function Navbar({ activeSection, scrollToSection, isMenuOpen, setIsMenuOp
               ) : (
                 // Guest buttons
                 <>
-                  <a
+                  <Link
                     href="/login"
                     className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-900 dark:hover:text-blue-400 transition-colors"
                   >
                     <LogIn className="w-4 h-4 mr-2" />
                     Login
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="/register"
                     className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 rounded-lg transition-colors"
                   >
                     <UserPlus className="w-4 h-4 mr-2" />
                     Register
-                  </a>
+                  </Link>
                 </>
               )}
             </div>
@@ -204,36 +208,33 @@ export function Navbar({ activeSection, scrollToSection, isMenuOpen, setIsMenuOp
                     </div>
                     
                     {auth.user.role === 'admin' && (
-                      <a
+                      <Link
                         href="/admin/bookings"
                         className="inline-flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-900 dark:hover:text-blue-400 transition-colors"
                       >
                         <Shield className="w-4 h-4 mr-2" />
                         Admin Panel
-                      </a>
+                      </Link>
                     )}
                     
-                    <a
+                    <Link
                       href="/dashboard"
                       className="inline-flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-900 dark:hover:text-blue-400 transition-colors"
                     >
                       <User className="w-4 h-4 mr-2" />
                       Dashboard
-                    </a>
+                    </Link>
                     
-                    <a
+                    <Link
                       href="/settings"
                       className="inline-flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-900 dark:hover:text-blue-400 transition-colors"
                     >
                       <Settings className="w-4 h-4 mr-2" />
                       Settings
-                    </a>
+                    </Link>
                     
                     <button
-                      onClick={() => {
-                            handleLogout(); 
-                            router.post(route('logout'));
-                          }}
+                      onClick={handleLogout}
                       className="inline-flex items-center text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors"
                     >
                       <LogOut className="w-4 h-4 mr-2" />
@@ -242,20 +243,20 @@ export function Navbar({ activeSection, scrollToSection, isMenuOpen, setIsMenuOp
                   </div>
                 ) : (
                   <div className="flex flex-col space-y-3">
-                    <a
+                    <Link
                       href="/login"
                       className="inline-flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-900 dark:hover:text-blue-400 transition-colors"
                     >
                       <LogIn className="w-4 h-4 mr-2" />
                       Login
-                    </a>
-                    <a
+                    </Link>
+                    <Link
                       href="/register"
                       className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 rounded-lg transition-colors"
                     >
                       <UserPlus className="w-4 h-4 mr-2" />
                       Register
-                    </a>
+                    </Link>
                   </div>
                 )}
               </div>

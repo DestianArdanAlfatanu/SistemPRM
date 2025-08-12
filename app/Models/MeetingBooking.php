@@ -29,7 +29,7 @@ class MeetingBooking extends Model
     ];
 
     protected $casts = [
-        'meeting_date' => 'date',
+        'meeting_date' => 'date:Y-m-d',
         'start_time' => 'datetime:H:i',
         'end_time' => 'datetime:H:i',
     ];

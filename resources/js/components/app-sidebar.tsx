@@ -9,11 +9,6 @@ import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
-        href: '/admin/bookings',
-        icon: LayoutGrid,
-    },
-    {
         title: 'Booking Meeting',
         href: '/admin/bookings',
         icon: Users,

@@ -80,27 +80,33 @@ export default function Edit({ booking }: Props) {
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div className="space-y-2">
                                     <Label htmlFor="unit">Unit</Label>
-                                    <Input
-                                        id="unit"
-                                        type="text"
-                                        value={data.unit}
-                                        onChange={(e) => setData('unit', e.target.value)}
-                                        className={errors.unit ? 'border-red-500' : ''}
-                                        required
-                                    />
+                                    <Select onValueChange={(value) => setData('unit', value)} value={data.unit}>
+                                        <SelectTrigger className={errors.unit ? 'border-red-500' : ''}>
+                                            <SelectValue placeholder="Pilih Unit" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="OBL, LEGAL & COMPLIANCE">OBL, LEGAL & COMPLIANCE</SelectItem>
+                                            <SelectItem value="PROJECT OPERATION">PROJECT OPERATION</SelectItem>
+                                            <SelectItem value="PARTNERSHIP SLA">PARTNERSHIP SLA</SelectItem>
+                                            <SelectItem value="RESOURCE & INVOICING">RESOURCE & INVOICING</SelectItem>
+                                        </SelectContent>
+                                    </Select>
                                     {errors.unit && <p className="text-sm text-red-500">{errors.unit}</p>}
                                 </div>
 
                                 <div className="space-y-2">
                                     <Label htmlFor="room_name">Nama Ruangan</Label>
-                                    <Input
-                                        id="room_name"
-                                        type="text"
-                                        value={data.room_name}
-                                        onChange={(e) => setData('room_name', e.target.value)}
-                                        className={errors.room_name ? 'border-red-500' : ''}
-                                        required
-                                    />
+                                    <Select onValueChange={(value) => setData('room_name', value)} value={data.room_name}>
+                                        <SelectTrigger className={errors.room_name ? 'border-red-500' : ''}>
+                                            <SelectValue placeholder="Pilih Ruangan" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="Meeting Room 1">Meeting Room 1</SelectItem>
+                                            <SelectItem value="Meeting Room 2">Meeting Room 2</SelectItem>
+                                            <SelectItem value="Meeting Room 3">Meeting Room 3</SelectItem>
+                                            <SelectItem value="Conference Room">Conference Room</SelectItem>
+                                        </SelectContent>
+                                    </Select>
                                     {errors.room_name && <p className="text-sm text-red-500">{errors.room_name}</p>}
                                 </div>
                             </div>
@@ -129,7 +135,6 @@ export default function Edit({ booking }: Props) {
                                             className={errors.meeting_date ? 'border-red-500' : ''}
                                             required
                                         />
-                                        <Calendar className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                                     </div>
                                     {errors.meeting_date && <p className="text-sm text-red-500">{errors.meeting_date}</p>}
                                 </div>
@@ -145,7 +150,6 @@ export default function Edit({ booking }: Props) {
                                             className={errors.start_time ? 'border-red-500' : ''}
                                             required
                                         />
-                                        <Clock className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                                     </div>
                                     {errors.start_time && <p className="text-sm text-red-500">{errors.start_time}</p>}
                                 </div>
@@ -161,14 +165,13 @@ export default function Edit({ booking }: Props) {
                                             className={errors.end_time ? 'border-red-500' : ''}
                                             required
                                         />
-                                        <Clock className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                                     </div>
                                     {errors.end_time && <p className="text-sm text-red-500">{errors.end_time}</p>}
                                 </div>
                             </div>
 
                             <div className="space-y-4">
-                                <h3 className="text-lg font-medium">Informasi Pembooking</h3>
+                                <h3 className="text-lg font-medium">Informasi Pemesan</h3>
                                 <div className="grid gap-4 md:grid-cols-3">
                                     <div className="space-y-2">
                                         <Label htmlFor="booked_by_name">Nama Lengkap</Label>

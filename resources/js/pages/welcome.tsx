@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import TimePicker from "@/components/ui/time-picker"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { PublicLayout } from "@/layouts/public-layout"
 import { Calendar, Clock, Users, MapPin, Phone, Mail, ChevronDown, Star, CheckCircle, XCircle, AlertCircle, Search } from "lucide-react"
@@ -56,34 +57,6 @@ interface TimePickerProps {
   value: string
   onChange: (value: string) => void
   availableSlots?: string[]
-}
-
-// Time Picker Component
-const TimePicker = ({ label, value, onChange, availableSlots = [] }: TimePickerProps) => {
-  return (
-    <div>
-      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-        {label}
-      </label>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="w-full px-3 py-2 border border-input bg-background dark:bg-gray-700 dark:border-gray-600 dark:text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring"
-      >
-        <option value="">Pilih Waktu</option>
-        {Array.from({ length: 10 }, (_, i) => {
-          const hour = 8 + i
-          const timeString = `${hour.toString().padStart(2, '0')}:00`
-          const isAvailable = availableSlots.length === 0 || availableSlots.includes(timeString)
-          return (
-            <option key={timeString} value={timeString} disabled={!isAvailable}>
-              {timeString} {!isAvailable ? '(Tidak tersedia)' : ''}
-            </option>
-          )
-        })}
-      </select>
-    </div>
-  )
 }
 
 function PRMWebsite() {
@@ -591,6 +564,7 @@ function PRMWebsite() {
                       label="Waktu Selesai *" 
                       value={formData.end_time} 
                       onChange={(value) => handleInputChange('end_time', value)}
+                      availableSlots={availableSlots}
                     />
                   </div>
 
@@ -678,7 +652,7 @@ function PRMWebsite() {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6">
+            <div className="space-y-2.5">
               {/* Check Booking Status */}
               <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Cek Status Booking</h4>
@@ -730,7 +704,7 @@ function PRMWebsite() {
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Booking Terbaru</h4>
                 <div className="space-y-3">
                   {recentBookings.length > 0 ? (
-                    recentBookings.slice(0, 4).map((booking, index) => (
+                    recentBookings.slice(0, 3).map((booking, index) => (
                       <div key={index} className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border border-gray-200 dark:border-gray-600">
                         <div className="flex items-center justify-between mb-2">
                           <div className="font-medium text-gray-900 dark:text-white text-sm">
@@ -769,88 +743,8 @@ function PRMWebsite() {
                     <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
                     <p>Booking akan diproses dalam 1x24 jam kerja</p>
                   </div>
-                  <div className="flex items-start space-x-2">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
-                    <p>Konfirmasi booking akan dikirim via email</p>
-                  </div>
                 </div>
               </div>
-
-              {/* Location Map */}
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
-                <h4 className="font-bold text-gray-900 dark:text-white mb-4">Lokasi Kami</h4>
-                <div className="w-full h-64 rounded-lg overflow-hidden">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.610160646332!2d106.8241632750374!3d-6.1828991938046025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x65cfeea36bcefb5%3A0x5163245d7deb4a95!2sTelkom%20Indibiz%20Experience%20-%20Jakarta%20Pusat!5e0!3m2!1sid!2sid!4v1754624345676!5m2!1sid!2sid"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  ></iframe>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Booking Status Examples */}
-      <section className="py-12 bg-gray-50 dark:bg-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-              Status Booking Terbaru
-            </h3>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600">
-              <div className="flex items-center justify-between mb-4">
-                <div className="font-semibold text-gray-900 dark:text-white">Meeting Room 1</div>
-                <div className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 px-2 py-1 rounded text-xs">
-                  Pending
-                </div>
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-300 mb-2">OBL, LEGAL & COMPLIANCE</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300 mb-2">Project Review</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">25 Des 2025, 09:00-11:00</div>
-            </div>
-
-            <div className="bg-white dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600">
-              <div className="flex items-center justify-between mb-4">
-                <div className="font-semibold text-gray-900 dark:text-white">Meeting Room 2</div>
-                <div className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 px-2 py-1 rounded text-xs">
-                  Approved
-                </div>
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-300 mb-2">Partnership SLA</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300 mb-2">Compliance Meeting</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">26 Des 2025, 08:00-10:00</div>
-            </div>
-
-            <div className="bg-white dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600">
-              <div className="flex items-center justify-between mb-4">
-                <div className="font-semibold text-gray-900 dark:text-white">Meeting Room 3</div>
-                <div className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300 px-2 py-1 rounded text-xs">
-                  Rejected
-                </div>
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-300 mb-2">PROJECT OPERATION</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300 mb-2">Planning</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">27 Des 2025, 10:00-12:00</div>
-            </div>
-
-            <div className="bg-white dark:bg-gray-700 p-6 rounded-lg border border-gray-200 dark:border-gray-600">
-              <div className="flex items-center justify-between mb-4">
-                <div className="font-semibold text-gray-900 dark:text-white">Conference Room</div>
-                <div className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 px-2 py-1 rounded text-xs">
-                  Approved
-                </div>
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-300 mb-2">PROJECT OPERATION</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300 mb-2">Finishing</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">31 Des 2025, 10:00-12:00</div>
             </div>
           </div>
         </div>

@@ -47,8 +47,8 @@ export function Navbar({ activeSection, scrollToSection, isMenuOpen, setIsMenuOp
 
   const navigationItems = [
     { id: "home", label: "Home" },
-    { id: "about", label: "About" },
     { id: "booking", label: "Booking" },
+    { id: "about", label: "About" },
     { id: "unit", label: "Unit" },
     { id: "team", label: "Team" },
     { id: "testimonials", label: "Testimonials" },

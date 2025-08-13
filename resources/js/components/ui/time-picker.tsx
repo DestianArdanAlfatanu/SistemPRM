@@ -2,25 +2,34 @@
 
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
+import { cn } from "../../lib/utils"
 
 interface TimePickerProps {
   label: string
-  value: string
-  onChange: (value: string) => void
+  value?: string
+  onChange?: (value: string) => void
+  className?: string
+  availableSlots?: string[] // ✅ TAMBAHAN: untuk cek availability
 }
 
-const TimePicker: React.FC<TimePickerProps> = ({ label, value, onChange }) => {
+const TimePicker: React.FC<TimePickerProps> = ({
+  label,
+  value,
+  onChange,
+  className,
+  availableSlots = [], // ✅ TAMBAHAN: default empty array
+}) => {
   const [selectedHour, setSelectedHour] = useState<number | null>(null)
   const [selectedMinute, setSelectedMinute] = useState<number | null>(null)
-  const [displayValue, setDisplayValue] = useState(value)
+  const [displayValue, setDisplayValue] = useState(value || "09:00")
   const [isOpen, setIsOpen] = useState(false)
   const hourRef = useRef<HTMLDivElement | null>(null)
   const minuteRef = useRef<HTMLDivElement | null>(null)
-  const containerRef = useRef<HTMLDivElement | null>(null) // Ref untuk container utama
+  const containerRef = useRef<HTMLDivElement | null>(null)
   const didMount = useRef(false)
 
   const hours = Array.from({ length: 24 }, (_, i) => i)
-  const minutes = Array.from({ length: 60 }, (_, i) => i)
+  const minutes = Array.from({ length: 12 }, (_, i) => i * 5) // 0, 5, 10, 15, ..., 55
 
   // set initial value saat mount
   useEffect(() => {
@@ -32,7 +41,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ label, value, onChange }) => {
     if (!didMount.current) {
       // scroll ke posisi awal saat pertama kali render
       hourRef.current?.scrollTo({ top: hour * 40, behavior: "auto" })
-      minuteRef.current?.scrollTo({ top: minute * 40, behavior: "auto" })
+      minuteRef.current?.scrollTo({ top: Math.floor(minute / 5) * 40, behavior: "auto" })
       didMount.current = true
     }
   }, [value])
@@ -45,12 +54,10 @@ const TimePicker: React.FC<TimePickerProps> = ({ label, value, onChange }) => {
       }
     }
 
-    // Tambahkan event listener saat dropdown terbuka
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside)
     }
 
-    // Cleanup event listener
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
     }
@@ -73,21 +80,35 @@ const TimePicker: React.FC<TimePickerProps> = ({ label, value, onChange }) => {
     }
   }, [isOpen])
 
+  // ✅ TAMBAHAN: Function untuk cek availability
+  const isTimeSlotAvailable = (hour: number, minute: number) => {
+    if (availableSlots.length === 0) return true // Jika tidak ada restriction, semua available
+
+    const timeString = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`
+    return availableSlots.includes(timeString)
+  }
+
   const handleSelect = (hour: number, minute: number) => {
+    // ✅ TAMBAHAN: Cek availability sebelum select
+    if (!isTimeSlotAvailable(hour, minute)) return
+
     setSelectedHour(hour)
     setSelectedMinute(minute)
     const formatted = `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`
     setDisplayValue(formatted)
-    onChange(formatted)
+    onChange?.(formatted)
   }
 
   const handleInputClick = () => {
     setIsOpen(!isOpen)
   }
 
+  const handleClose = () => {
+    setIsOpen(false)
+  }
 
   return (
-    <div className="relative w-full" ref={containerRef}>
+    <div className={cn("relative w-full", className)} ref={containerRef}>
       <label className="block text-sm font-medium text-gray-700 mb-2">{label}</label>
       <div className="relative">
         <input
@@ -121,17 +142,27 @@ const TimePicker: React.FC<TimePickerProps> = ({ label, value, onChange }) => {
                   ref={hourRef}
                   className="h-40 w-16 overflow-y-scroll scroll-smooth snap-y border border-gray-200 rounded bg-gray-50"
                 >
-                  {hours.map((h) => (
-                    <div
-                      key={h}
-                      className={`h-10 flex items-center justify-center text-sm cursor-pointer snap-start transition-colors duration-150 hover:bg-gray-100 ${
-                        selectedHour === h ? "bg-blue-600 text-white font-semibold" : "text-gray-700"
-                      }`}
-                      onClick={() => handleSelect(h, selectedMinute ?? 0)}
-                    >
-                      {h.toString().padStart(2, "0")}
-                    </div>
-                  ))}
+                  {hours.map((h) => {
+                    // ✅ TAMBAHAN: Cek availability untuk jam ini (dengan menit 0)
+                    const isAvailable = isTimeSlotAvailable(h, selectedMinute ?? 0)
+
+                    return (
+                      <div
+                        key={h}
+                        className={cn(
+                          "h-10 flex items-center justify-center text-sm snap-start transition-colors duration-150",
+                          !isAvailable
+                            ? "text-red-600 cursor-not-allowed" // ✅ UBAH: Red theme untuk booked slots
+                            : selectedHour === h
+                              ? "bg-blue-600 text-white font-semibold" // ✅ TETAP: Red theme untuk selected
+                              : "text-gray-700 hover:bg-gray-100 cursor-pointer",
+                        )}
+                        onClick={() => isAvailable && handleSelect(h, selectedMinute ?? 0)}
+                      >
+                        {h.toString().padStart(2, "0")}
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
 
@@ -145,17 +176,27 @@ const TimePicker: React.FC<TimePickerProps> = ({ label, value, onChange }) => {
                   ref={minuteRef}
                   className="h-40 w-16 overflow-y-scroll scroll-smooth snap-y border border-gray-200 rounded bg-gray-50"
                 >
-                  {minutes.map((m) => (
-                    <div
-                      key={m}
-                      className={`h-10 flex items-center justify-center text-sm cursor-pointer snap-start transition-colors duration-150 hover:bg-gray-100 ${
-                        selectedMinute === m ? "bg-blue-600 text-white font-semibold" : "text-gray-700"
-                      }`}
-                      onClick={() => handleSelect(selectedHour ?? 0, m)}
-                    >
-                      {m.toString().padStart(2, "0")}
-                    </div>
-                  ))}
+                  {minutes.map((m) => {
+                    // ✅ TAMBAHAN: Cek availability untuk menit ini
+                    const isAvailable = isTimeSlotAvailable(selectedHour ?? 0, m)
+
+                    return (
+                      <div
+                        key={m}
+                        className={cn(
+                          "h-10 flex items-center justify-center text-sm snap-start transition-colors duration-150",
+                          !isAvailable
+                            ? " text-red-600 cursor-not-allowed" // ✅ UBAH: Red theme untuk booked slots
+                            : selectedMinute === m
+                              ? "bg-blue-600 text-white font-semibold" // ✅ TETAP: Red theme untuk selected
+                              : "text-gray-700 hover:bg-gray-100 cursor-pointer",
+                        )}
+                        onClick={() => isAvailable && handleSelect(selectedHour ?? 0, m)}
+                      >
+                        {m.toString().padStart(2, "0")}
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             </div>

@@ -139,8 +139,18 @@ class PublicBookingController extends Controller
     {
         try {
             $bookings = MeetingBooking::with(['creator', 'approver'])
-                ->whereDate('meeting_date', '>=', today())
+                ->where(function ($query) {
+                    // 1. Ambil semua booking di hari esok dan seterusnya.
+                    $query->where('meeting_date', '>', today())
+                        // 2. ATAU, untuk hari ini...
+                        ->orWhere(function ($query) {
+                            $query->where('meeting_date', today())
+                                    // ...hanya yang waktu selesainya belum lewat dari waktu sekarang.
+                                    ->where('end_time', '>=', now()->format('H:i:s'));
+                        });
+                })
                 ->orderBy('meeting_date', 'asc')
+                ->orderBy('created_at', 'desc')
                 ->orderBy('start_time', 'asc')
                 ->limit(8)
                 ->get()

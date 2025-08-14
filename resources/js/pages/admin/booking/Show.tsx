@@ -83,7 +83,7 @@ export default function Show({ booking }: Props) {
                                             <Check className="mr-2 h-4 w-4" />
                                             Setujui
                                         </Button>
-                                        <Button size="sm" variant="destructive" onClick={handleReject}>
+                                        <Button size="sm" variant="destructive" onClick={handleReject} className="bg-red-600 text-white hover:bg-red-700">
                                             <X className="mr-2 h-4 w-4" />
                                             Tolak
                                         </Button>
@@ -91,7 +91,7 @@ export default function Show({ booking }: Props) {
                                 )}
                                 <Button variant="outline" size="sm" asChild>
                                     <Link href={`/admin/bookings/${booking.id}/edit`}>
-                                        <Edit className="mr-2 h-4 w-4" />
+                                        <Edit className="mr-2 h-4 w-9" />
                                         Edit
                                     </Link>
                                 </Button>

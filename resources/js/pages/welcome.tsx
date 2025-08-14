@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input"
 import TimePicker from "@/components/ui/time-picker"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { PublicLayout } from "@/layouts/public-layout"
-import { Calendar, Clock, Users, MapPin, Phone, Mail, ChevronDown, Star, CheckCircle, XCircle, AlertCircle, Search } from "lucide-react"
+import { Calendar, Clock, Users, MapPin, Phone, Mail, ChevronDown , Star, CheckCircle, XCircle, AlertCircle, Search, Gavel, GlobeLock, ReceiptText  } from "lucide-react"
 
 // Type definitions
 interface FormData {
@@ -278,32 +278,32 @@ function PRMWebsite() {
   }
 
   const units = ["OBL, LEGAL & COMPLIANCE", "PROJECT OPERATION", "PARTNERSHIP SLA", "RESOURCE & INVOICING"]
-  const meetingRooms = ["Meeting Room 1", "Meeting Room 2", "Meeting Room 3", "Conference Room"]
+  const meetingRooms = ["Meeting Room 1", "Meeting Room 2", "Meeting Room 3", "Meeting Room 4", "Meeting Room 5", "Meeting Room 6", "Meeting Room 7"]
 
   const unitData = [
     {
       name: "OBL, LEGAL & COMPLIANCE",
       description:
         "Memastikan kepatuhan hukum dan regulasi dalam seluruh aspek operasional perusahaan dan mengelola operasional bisnis dan layanan utama perusahaan",
-      icon: <Clock className="h-12 w-12" />,
+      icon: <Gavel className="h-12 w-12" />,
       color: "text-blue-900 dark:text-blue-400",
     },
     {
       name: "PROJECT OPERATION",
       description: "Mengelola dan mengawasi pelaksanaan proyek-proyek strategis perusahaan",
-      icon: <Users className="h-12 w-12" />,
+      icon: <GlobeLock className="h-12 w-12" />,
       color: "text-green-600 dark:text-green-400",
     },
     {
       name: "PARTNERSHIP SLA",
       description: "Mengelola kemitraan strategis dan Service Level Agreement dengan mitra bisnis",
-      icon: <MapPin className="h-12 w-12" />,
+      icon: <Users className="h-12 w-12" />,
       color: "text-purple-600 dark:text-purple-400",
     },
     {
       name: "RESOURCE & INVOICING",
       description: "Mengelola sumber daya perusahaan dan sistem penagihan untuk optimalisasi keuangan",
-      icon: <Phone className="h-12 w-12" />,
+      icon: <ReceiptText className="h-12 w-12" />,
       color: "text-orange-600 dark:text-orange-400",
     },
   ]
@@ -557,14 +557,14 @@ function PRMWebsite() {
                       label="Waktu Mulai *" 
                       value={formData.start_time} 
                       onChange={(value) => handleInputChange('start_time', value)}
-                      availableSlots={availableSlots}
+                      // availableSlots={availableSlots}
                     />
                     
                     <TimePicker 
                       label="Waktu Selesai *" 
                       value={formData.end_time} 
                       onChange={(value) => handleInputChange('end_time', value)}
-                      availableSlots={availableSlots}
+                      // availableSlots={availableSlots}
                     />
                   </div>
 
@@ -717,7 +717,7 @@ function PRMWebsite() {
                         <div className="text-xs text-gray-600 dark:text-gray-300">
                           <p>{booking.unit}</p>
                           <p>{booking.topic}</p>
-                          <p>{booking.meeting_date}, {booking.time_range}</p>
+                          <p>{booking.time_range}</p>
                         </div>
                       </div>
                     ))
@@ -873,9 +873,30 @@ function PRMWebsite() {
           <div className="bg-white dark:bg-gray-700 rounded-2xl p-8 shadow-lg border border-gray-200 dark:border-gray-600">
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">Calendar of Events</h3>
             <div className="grid md:grid-cols-3 gap-6">
+              
               <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-600 hover:shadow-lg transition-shadow duration-300">
                 <div className="flex items-center mb-4">
-                  <div className="bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 rounded-lg p-2 mr-3">
+                  <div className="bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 rounded-lg p-2 mr-3">
+                    <div className="text-xs font-semibold">AUG</div>
+                    <div className="text-lg font-bold">15</div>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-gray-900 dark:text-white">Lomba HUT RI 80</div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">07:00 - 17:00 WIB</div>
+                  </div>
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-300 mb-3">Lomba Antar Unit PRM</div>
+                <div className="flex items-center justify-between">
+                  <div className="text-xs border border-gray-300 dark:border-gray-500 dark:text-gray-300 px-2 py-1 rounded">
+                    All Units
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">Kebon Sirih 36</div>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-600 hover:shadow-lg transition-shadow duration-300">
+                <div className="flex items-center mb-4">
+                  <div className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-lg p-2 mr-3">
                     <div className="text-xs font-semibold">AUG</div>
                     <div className="text-lg font-bold">17</div>
                   </div>
@@ -897,7 +918,7 @@ function PRMWebsite() {
 
               <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-600 hover:shadow-lg transition-shadow duration-300">
                 <div className="flex items-center mb-4">
-                  <div className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-lg p-2 mr-3">
+                  <div className="bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 rounded-lg p-2 mr-3">
                     <div className="text-xs font-semibold">AUG</div>
                     <div className="text-lg font-bold">18</div>
                   </div>
@@ -919,21 +940,23 @@ function PRMWebsite() {
 
               <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-600 hover:shadow-lg transition-shadow duration-300">
                 <div className="flex items-center mb-4">
-                  <div className="bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 rounded-lg p-2 mr-3">
+                  <div className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-lg p-2 mr-3">
                     <div className="text-xs font-semibold">AUG</div>
-                    <div className="text-lg font-bold">20</div>
+                    <div className="text-lg font-bold">22</div>
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900 dark:text-white">Lomba HUT RI 80</div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">09:00 - 16:00 WIB</div>
+                    <div className="font-semibold text-gray-900 dark:text-white">Futsal</div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">19:00 - 20:00 WIB</div>
                   </div>
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-300 mb-3">Lomba Antar Unit PRM</div>
+                <div className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+                  Olahrga bersama demi menjalin silaturahmi antar unit
+                </div>
                 <div className="flex items-center justify-between">
                   <div className="text-xs border border-gray-300 dark:border-gray-500 dark:text-gray-300 px-2 py-1 rounded">
                     All Units
                   </div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">Halaman Telkom Indibiz</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">Kenari Futsal</div>
                 </div>
               </div>
             </div>

@@ -278,7 +278,7 @@ function PRMWebsite() {
   }
 
   const units = ["OBL, LEGAL & COMPLIANCE", "PROJECT OPERATION", "PARTNERSHIP SLA", "RESOURCE & INVOICING"]
-  const meetingRooms = ["Meeting Room 1", "Meeting Room 2", "Meeting Room 3", "Meeting Room 4", "Meeting Room 5", "Meeting Room 6", "Meeting Room 7"]
+  const meetingRooms = ["PRM 1", "PRM 2", "PRM 3", "Istighfar 1", "Istighfar 2", "Istighfar 3", "Istighfar 4"]
 
   const unitData = [
     {
@@ -312,7 +312,7 @@ function PRMWebsite() {
     {
       nama: "TOTO RUDIARTO",
       posisi: "KEPALA PROYEK RESOLUTION MANAGEMENT",
-      foto: "/Toto.png?w=300&h=300&fit=crop",
+      foto: "/PAK-TOTO.JPG?w=300&h=300&fit=crop",
       deskripsi: "20+ years experience in telecommunications and digital transformation.",
     },
   ]
@@ -321,25 +321,25 @@ function PRMWebsite() {
     {
       name: "PAULUS CAHYO WIDHIATMOKO",
       position: "COORDINATOR PROJECT OPERATION",
-      image: "/PAK PAULUS.png?w=300&h=300&fit=crop",
+      image: "/PAK-PAULUS.JPG?w=300&h=300&fit=crop",
       description: "20+ years experience in telecommunications and digital transformation.",
     },
     {
       name: "PRASASTA ARISANTI",
       position: " COORDINATOR RESOURCE & INVOICING",
-      image: "/IBU PRAS.png?w=300&h=300&fit=crop",
+      image: "/IBU-PRAS.JPG?w=300&h=300&fit=crop",
       description: "Expert in cloud architecture and enterprise solutions with 15 years experience.",
     },
     {
       name: "ANDANG ASHARI, S.T.",
       position: "COORDINATOR PARTNERSHIP SLA",
-      image: "/laki.jpg?w=300&h=300&fit=crop",
+      image: "/PAK-ANDANG.JPG?w=300&h=300&fit=crop",
       description: "Specialized in network infrastructure and project management for large-scale deployments.",
     },
     {
       name: "FX.ALI SARTONO, S.T.",
       position: "COORDINATOR OBL, LEGAL & COMPLIANCE",
-      image: "/laki.jpg?w=300&h=300&fit=crop",
+      image: "/PAK-ALI.JPG?w=300&h=300&fit=crop",
       description: "Specialized in network infrastructure and project management for large-scale deployments.",
     },
   ]
@@ -704,7 +704,7 @@ function PRMWebsite() {
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Booking Terbaru</h4>
                 <div className="space-y-3">
                   {recentBookings.length > 0 ? (
-                    recentBookings.slice(0, 3).map((booking, index) => (
+                    recentBookings.slice(0, 4).map((booking, index) => (
                       <div key={index} className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border border-gray-200 dark:border-gray-600">
                         <div className="flex items-center justify-between mb-2">
                           <div className="font-medium text-gray-900 dark:text-white text-sm">
@@ -728,12 +728,12 @@ function PRMWebsite() {
               </div>
 
               {/* Booking Guidelines */}
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+              {/* <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Panduan Booking</h4>
                 <div className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
                   <div className="flex items-start space-x-2">
                     <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
-                    <p>Booking dapat dilakukan minimal H-1 sebelum tanggal meeting</p>
+                    <p>Booking dapat dilakukan minimal H-1 jam sebelum meeting</p>
                   </div>
                   <div className="flex items-start space-x-2">
                     <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
@@ -744,7 +744,7 @@ function PRMWebsite() {
                     <p>Booking akan diproses dalam 1x24 jam kerja</p>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -760,7 +760,7 @@ function PRMWebsite() {
               enterprise untuk memajukan Indonesia.
             </p>
           </div>
-
+{/* 
           <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
             <div className="space-y-6">
               <div className="bg-white dark:bg-gray-700 p-8 rounded-2xl shadow-lg">
@@ -783,7 +783,7 @@ function PRMWebsite() {
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="bg-white dark:bg-gray-700 p-8 rounded-2xl shadow-lg">
             {/* ISTIGHFAR Image */}
@@ -1051,7 +1051,7 @@ function PRMWebsite() {
         </div>
       </section>
 
-      {/* Contact Section */}
+      {/* Contact Section
       <section id="contact" className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -1129,43 +1129,17 @@ function PRMWebsite() {
 
               <div className="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-600">
                 <div className="flex items-start space-x-4">
-                  <Phone className="h-6 w-6 text-blue-900 dark:text-blue-400 mt-1" />
-                  <div>
-                    <h4 className="font-bold text-gray-900 dark:text-white mb-2">Telepon</h4>
-                    <p className="text-gray-600 dark:text-gray-300">+62 22 7566 5000</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-600">
-                <div className="flex items-start space-x-4">
                   <Mail className="h-6 w-6 text-blue-900 dark:text-blue-400 mt-1" />
                   <div>
                     <h4 className="font-bold text-gray-900 dark:text-white mb-2">Email</h4>
-                    <p className="text-gray-600 dark:text-gray-300">prm@telkom.co.id</p>
+                    <p className="text-gray-600 dark:text-gray-300">admin@prm-telkom.site</p>
                   </div>
-                </div>
-              </div>
-
-              {/* Embedded Map */}
-              <div className="bg-white dark:bg-gray-700 p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-600">
-                <h4 className="font-bold text-gray-900 dark:text-white mb-4">Lokasi Kami</h4>
-                <div className="w-full h-64 rounded-lg overflow-hidden">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.610160646332!2d106.8241632750374!3d-6.1828991938046025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x65cfeea36bcefb5%3A0x5163245d7deb4a95!2sTelkom%20Indibiz%20Experience%20-%20Jakarta%20Pusat!5e0!3m2!1sid!2sid!4v1754624345676!5m2!1sid!2sid"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  ></iframe>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </PublicLayout>
   )
 }

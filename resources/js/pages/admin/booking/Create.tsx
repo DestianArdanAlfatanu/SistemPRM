@@ -93,10 +93,13 @@ export default function Create() {
                       <SelectValue placeholder="Pilih Ruangan" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Meeting Room 1">Meeting Room 1</SelectItem>
-                      <SelectItem value="Meeting Room 2">Meeting Room 2</SelectItem>
-                      <SelectItem value="Meeting Room 3">Meeting Room 3</SelectItem>
-                      <SelectItem value="Conference Room">Conference Room</SelectItem>
+                      <SelectItem value="PRM 1">PRM 1</SelectItem>
+                      <SelectItem value="PRM 2">PRM 2</SelectItem>
+                      <SelectItem value="PRM 3">PRM 3</SelectItem>
+                      <SelectItem value="Istighfar 1">Istighfar 1</SelectItem>
+                      <SelectItem value="Istighfar 2">Istighfar 2</SelectItem>
+                      <SelectItem value="Istighfar 3">Istighfar 3</SelectItem>
+                      <SelectItem value="Istighfar 4">Istighfar 4</SelectItem>
                     </SelectContent>
                   </Select>
                   {errors.room_name && <p className="text-sm text-red-500 font-medium">{errors.room_name}</p>}

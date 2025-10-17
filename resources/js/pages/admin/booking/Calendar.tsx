@@ -1,10 +1,10 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
-import { Calendar, List, Plus } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import AppLayout from '@/layouts/app-layout'
+import { type BreadcrumbItem } from '@/types'
+import { Head, Link } from '@inertiajs/react'
+import { Calendar, List, Plus } from 'lucide-react'
 
 interface CalendarEvent {
   id: string
@@ -30,22 +30,26 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function CalendarView({ events }: Props) {
   const calendarRef = useRef<HTMLDivElement>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const eventsPerPage = 10
+
+  const totalPages = Math.ceil(events.length / eventsPerPage)
+  const paginatedEvents = events.slice(
+    (currentPage - 1) * eventsPerPage,
+    currentPage * eventsPerPage
+  )
 
   useEffect(() => {
-    // Here you would integrate with a calendar library like FullCalendar
-    // For now, we'll create a simple month view
     if (calendarRef.current) {
-      // Initialize calendar here
+      // initialize calendar here
     }
   }, [events])
 
   const handleCreateBooking = () => {
-    // Handle create booking navigation
     console.log("Navigate to create booking")
   }
 
   const handleListView = () => {
-    // Handle list view navigation
     console.log("Navigate to list view")
   }
 
@@ -87,52 +91,67 @@ export default function CalendarView({ events }: Props) {
           <CardContent className="p-8">
             <div className="rounded-xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-white p-8 min-h-[600px] shadow-inner">
               <div ref={calendarRef} className="h-full">
-                {/* Enhanced calendar placeholder */}
                 <div className="text-center py-12">
                   <div className="bg-blue-900 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center shadow-lg">
                     <Calendar className="h-10 w-10 text-white" />
                   </div>
                   <h3 className="text-2xl font-bold text-blue-900 mb-3">Kalender Booking Meeting</h3>
                   <p className="text-blue-700 mb-8 text-lg">
-                    Menampilkan <span className="font-semibold text-blue-900">{events.length}</span> booking yang telah
-                    disetujui
+                    Menampilkan <span className="font-semibold text-blue-900">{events.length}</span> booking yang telah disetujui
                   </p>
 
                   {events.length > 0 ? (
-                    <div className="grid gap-4 max-w-2xl mx-auto">
-                      <h4 className="text-lg font-semibold text-blue-900 mb-4">Booking Terbaru</h4>
-                      {events.slice(0, 5).map((event, index) => (
-                        <div
-                          key={event.id}
-                          className="flex flex-col gap-3 p-5 bg-white border border-blue-200 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:border-blue-300"
+                    <>
+                      <div className="grid gap-4 max-w-2xl mx-auto">
+                        <h4 className="text-lg font-semibold text-blue-900 mb-4">Booking Terbaru</h4>
+                        {paginatedEvents.map((event) => (
+                          <div
+                            key={event.id}
+                            className="flex flex-col gap-3 p-5 bg-white border border-blue-200 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:border-blue-300"
+                          >
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-5 text-sm">
+                              <div className="flex items-center gap-2 text-blue-700">
+                                <span className="font-medium">Unit:</span>
+                                <span className="bg-blue-50 px-2 py-1 rounded text-blue-800">{event.unit}</span>
+                              </div>
+                              <div className="flex items-center gap-2 text-blue-700">
+                                <span className="font-medium">Ruangan:</span>
+                                <span className="bg-blue-50 px-2 py-1 rounded text-blue-800">{event.room_name}</span>
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-between pt-2 border-t border-blue-100">
+                              <span className="text-sm font-medium text-blue-800 bg-blue-50 px-3 py-1 rounded-full">
+                                {event.meeting_date}
+                              </span>
+                              <span className="text-sm font-medium text-blue-800 bg-blue-50 px-3 py-1 rounded-full">
+                                {event.start_time} - {event.end_time}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Pagination Buttons */}
+                      <div className="flex justify-center items-center mt-6 gap-4">
+                        <Button
+                          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                          disabled={currentPage === 1}
+                          className="bg-blue-800 text-white hover:bg-blue-700"
                         >
-                          <div className="flex flex-col sm:flex-row sm:items-center gap-5 text-sm">
-                            <div className="flex items-center gap-2 text-blue-700">
-                              <span className="font-medium">Unit:</span>
-                              <span className="bg-blue-50 px-2 py-1 rounded text-blue-800">{event.unit}</span>
-                            </div>
-                            <div className="flex items-center gap-2 text-blue-700">
-                              <span className="font-medium">Ruangan:</span>
-                              <span className="bg-blue-50 px-2 py-1 rounded text-blue-800">{event.room_name}</span>
-                            </div>
-                          </div>
-                          <div className="flex items-center justify-between pt-2 border-t border-blue-100">
-                            <span className="text-sm font-medium text-blue-800 bg-blue-50 px-3 py-1 rounded-full">
-                              {event.meeting_date}
-                            </span>
-                            <span className="text-sm font-medium text-blue-800 bg-blue-50 px-3 py-1 rounded-full">
-                              {event.start_time} - {event.end_time}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                      {events.length > 5 && (
-                        <div className="mt-4 p-4 bg-blue-900 text-white rounded-lg text-center">
-                          <p className="text-lg font-semibold">+{events.length - 5} booking lainnya</p>
-                          <p className="text-blue-200 text-sm mt-1">Lihat semua booking di List View</p>
-                        </div>
-                      )}
-                    </div>
+                          Sebelumnya
+                        </Button>
+                        <span className="text-blue-800 font-semibold">
+                          Halaman {currentPage} dari {totalPages}
+                        </span>
+                        <Button
+                          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                          disabled={currentPage === totalPages}
+                          className="bg-blue-800 text-white hover:bg-blue-700"
+                        >
+                          Selanjutnya
+                        </Button>
+                      </div>
+                    </>
                   ) : (
                     <div className="bg-blue-50 border-2 border-dashed border-blue-300 rounded-xl p-8 max-w-md mx-auto">
                       <p className="text-blue-700 text-lg font-medium">Belum ada booking yang disetujui</p>
